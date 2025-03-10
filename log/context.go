@@ -17,12 +17,12 @@ func Context(ctx context.Context, logger *slog.Logger, kwargs ...interface{}) co
 	return context.WithValue(ctx, logKey, logger)
 }
 
-func FromContext(ctx context.Context) *slog.Logger {
+func FromContext(ctx context.Context, kwargs ...interface{}) *slog.Logger {
 	logger, ok := ctx.Value(logKey).(*slog.Logger)
 	if !ok {
 		return slog.Default()
 	}
-	return logger
+	return logger.With(kwargs...)
 }
 
 func DebugContext(ctx context.Context, msg string, args ...any) {
@@ -30,7 +30,6 @@ func DebugContext(ctx context.Context, msg string, args ...any) {
 }
 
 func log(ctx context.Context, level slog.Level, msg string, args ...any) {
-
 	logger := FromContext(ctx)
 	if !logger.Enabled(ctx, level) {
 		return
@@ -57,10 +56,10 @@ func WarnContext(ctx context.Context, msg string, args ...any) {
 }
 
 func ErrorContext(ctx context.Context, msg string, err error, args ...any) {
-	newArgs := []any{}
-	newArgs = append(newArgs, args...)
+	errmsg := "<nil>"
 	if err != nil {
-		newArgs = []any{"error", err.Error()}
+		errmsg = err.Error()
 	}
-	log(ctx, slog.LevelError, msg, newArgs...)
+	args = append(args, "error", errmsg)
+	log(ctx, slog.LevelError, msg, args...)
 }
