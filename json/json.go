@@ -11,26 +11,12 @@ func init() {
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
-func Marshal(v interface{}) ([]byte, error) {
-	return json.Marshal(v)
-}
-
-func Unmarshal(data []byte, v interface{}) error {
-	return json.Unmarshal(data, v)
-}
-
-func SafeMarshal(v interface{}) []byte {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return []byte("{}")
-	}
-	return b
-}
-
-func SafeMarshalString(v interface{}) string {
-	return string(SafeMarshal(v))
-}
-
-func UnmarshalString(data string, v interface{}) error {
-	return json.Unmarshal([]byte(data), v)
-}
+var Marshal = json.Marshal
+var Unmarshal = json.Unmarshal
+var MarshalIndent = json.MarshalIndent
+var MarshalToString = json.MarshalToString
+var UnmarshalFromString = json.UnmarshalFromString
+var NewEncoder = json.NewEncoder
+var Get = json.Get
+var NewDecoder = json.NewDecoder
+var Valid = json.Valid
