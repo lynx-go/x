@@ -20,3 +20,8 @@ var NewEncoder = json.NewEncoder
 var Get = json.Get
 var NewDecoder = json.NewDecoder
 var Valid = json.Valid
+
+func ShouldMarshalToString(v interface{}) string {
+	s, _ := json.MarshalToString(v)
+	return s
+}
