@@ -3,6 +3,7 @@ package json
 import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/json-iterator/go/extra"
+	"github.com/samber/lo"
 )
 
 func init() {
@@ -21,7 +22,10 @@ var Get = json.Get
 var NewDecoder = json.NewDecoder
 var Valid = json.Valid
 
-func ShouldMarshalToString(v interface{}) string {
-	s, _ := json.MarshalToString(v)
-	return s
+func MustMarshalToString(v interface{}) string {
+	return lo.Must1(json.MarshalToString(v))
+}
+
+func MustMarshal(v interface{}) []byte {
+	return lo.Must1(json.Marshal(v))
 }

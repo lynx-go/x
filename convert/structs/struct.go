@@ -1,4 +1,4 @@
-package convert
+package structs
 
 import "github.com/mitchellh/mapstructure"
 

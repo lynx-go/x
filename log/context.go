@@ -12,6 +12,11 @@ type logCtx struct {
 
 var logKey = logCtx{}
 
+func WithContext(ctx context.Context, kwargs ...interface{}) context.Context {
+	logger := FromContext(ctx)
+	return Context(ctx, logger, kwargs...)
+}
+
 func Context(ctx context.Context, logger *slog.Logger, kwargs ...interface{}) context.Context {
 	logger = logger.With(kwargs...)
 	return context.WithValue(ctx, logKey, logger)
