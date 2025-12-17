@@ -1,0 +1,12 @@
+version: '3'
+
+env:
+  RELEASE_VERSION: v0.1.0
+  RELEASE_COMMENT: "v0.1.0"
+
+tasks:
+  release-tag:
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds:
+      - git tag -a $RELEASE_VERSION -m "$RELEASE_COMMENT"
+      - git push origin $RELEASE_VERSION
