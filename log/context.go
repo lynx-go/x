@@ -7,10 +7,7 @@ import (
 	"time"
 )
 
-type logCtx struct {
-}
-
-var logKey = logCtx{}
+var logKey struct{}
 
 func WithContext(ctx context.Context, kwargs ...interface{}) context.Context {
 	logger := FromContext(ctx)
@@ -25,7 +22,10 @@ func Context(ctx context.Context, logger *slog.Logger, kwargs ...interface{}) co
 func FromContext(ctx context.Context, kwargs ...interface{}) *slog.Logger {
 	logger, ok := ctx.Value(logKey).(*slog.Logger)
 	if !ok {
-		return slog.Default()
+		logger = slog.Default()
+	}
+	if len(kwargs) == 0 {
+		return logger
 	}
 	return logger.With(kwargs...)
 }
